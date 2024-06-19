@@ -91,6 +91,19 @@ const filmy = [
 		premiera: '1971-10-01',
 	},
 	{
+		id: 'hvezdna-brana',
+		nazev: 'Hvězdná brána',
+		plakat: {
+			url: 'https://upload.wikimedia.org/wikipedia/en/e/e0/Stargateposter.jpg',
+			sirka: 420,
+			vyska: 592,
+		},
+		ochutnavka: 'Kultovní sci-fi.',
+		popis:
+			'Vědecká expedice objevila poblíž pyramid zvláštní objekt pokrytý neznámými symboly. V přísném utajení ho začala zkoumat armáda, uběhla však dlouhá řada desetiletí, než se našel člověk, který by nápis rozluštil. Egyptolog Daniel Jackson zjistil, že znaky představují souřadnice pro cestu vesmírem na jakousi vzdálenou planetu. Padlo rozhodnutí vyslat tam průzkumnou jednotku pod velením plukovníka O´Neila. Symbol umožňující návrat na Zem ovšem na hvězdné bráně chybí, bude zřejmě teprve na místě určení. Expedice nutně potřebuje Danielovy znalosti, mladý vědec se tedy volky nevolky stává jejím členem. Nepraktický intelektuál se ocitá v prapodivném světě na úrovni staroegyptské civilizace, kde všichni lidé ve strachu otročí božskému vládci a nebezpečí číhá na každém kroku... (oficiální text distributora)',
+		premiera: '1994-10-28',
+	},
+	{
 		id: 'krakonosovo-tajemstvi',
 		nazev: 'Krakonošovo tajemství',
 		plakat: {
@@ -104,3 +117,258 @@ const filmy = [
 		premiera: '2022-12-24',
 	},
 ]
+
+
+/* ZADÁNÍ 5.1-5 */
+const filmID = window.location.hash.slice(1);
+const filmData = filmy.find((film) => film.id === filmID);
+const listFilms = document.querySelector("#detail-filmu");
+
+listFilms.innerHTML = ''
+
+
+/* ZADÁNÍ 6. + bonus + extra bonus */
+const premieraDatum = dayjs(filmData.premiera).format('D. M. YYYY')
+
+const dnes = dayjs()
+const premieraFilmu = dayjs(filmData.premiera)
+const rozdilDat = Math.abs(dayjs(filmData.premiera).diff(dayjs(), 'days'))
+
+const denTvar = (days) => {
+	if (days === 1) {
+		return 'den'
+	} else if (days >= 2 && days <= 4) {
+		return 'dny'
+	} else {
+		return 'dní'
+	}
+}
+
+listFilms.innerHTML += `
+	<div class="card mb-3" id="detail-filmu">
+				<div class="row g-0">
+					<div class="col-md-5">
+						<img
+							src="${filmData.plakat.url}"
+							alt="plakát"
+							class="img-fluid rounded-start"
+							width="663"
+							height="909"
+						/>
+					</div>
+					<div class="col-md-7">
+						<div class="card-body">
+							<h5 class="card-title">${filmData.nazev}</h5>
+							<p class="card-text">${filmData.popis}.</p>
+							<p class="card-text">
+								<small class="text-muted" id="premiera"
+									>Premiéra <strong>${premieraDatum}</strong>, což bylo před ${rozdilDat} dny.</small
+								>
+							</p>
+							<h6>Hodnocení</h6>
+							<div class="stars">
+								<button
+									class="far fa-star button-star"
+									data-mdb-toggle="tooltip"
+									title="Nic moc"
+								>
+									1
+								</button>
+								<button
+									class="far fa-star button-star"
+									data-mdb-toggle="tooltip"
+									title="Ucházející"
+								>
+									2
+								</button>
+								<button
+									class="far fa-star button-star"
+									data-mdb-toggle="tooltip"
+									title="Dobrý"
+								>
+									3
+								</button>
+								<button
+									class="far fa-star button-star"
+									data-mdb-toggle="tooltip"
+									title="Skvělý"
+								>
+									4
+								</button>
+								<button
+									class="far fa-star button-star"
+									data-mdb-toggle="tooltip"
+									title="Úžasný"
+								>
+									5
+								</button>
+							</div>
+
+							<h6 class="mt-4">Poznámka</h6>
+							<form id="note-form">
+								<div class="row">
+									<div class="col-md-6 col-lg-7 col-xl-8 mb-2">
+										<div class="form-outline">
+											<textarea
+												class="form-control"
+												id="message-input"
+												rows="4"
+											></textarea>
+											<label class="form-label" for="message-input"
+												>Text poznámky</label
+											>
+										</div>
+									</div>
+									<div class="col-md-6 col-lg-5 col-xl-4">
+										<div class="form-check d-flex justify-content-center mb-2">
+											<input
+												class="form-check-input me-2 mb-2"
+												type="checkbox"
+												value=""
+												id="terms-checkbox"
+											/>
+											<label class="form-check-label" for="terms-checkbox">
+												Souhlasím se všeobecnými podmínky užívání.
+											</label>
+										</div>
+								<button type="submit" class="btn btn-primary btn-block">
+											Uložit
+								</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+`
+
+/* ZADÁNÍ 7.1-4 + bonus */
+let ulozeneCislo
+
+
+const stars = (cislo) => {
+	const starsButton = document.querySelectorAll('.fa-star')
+	starsButton.forEach((star, index) => {
+		if (index < cislo) {
+			star.classList.remove('far')
+			star.classList.add('fas')
+		} else {
+			star.classList.remove('fas')
+			star.classList.add('far')
+		}
+	})
+}
+
+const starsButton = document.querySelectorAll('.fa-star')
+starsButton.forEach((star, index) => {
+	star.addEventListener('click', (event) => {
+		const cislo = index + 1;
+		ulozeneCislo = index + 1;
+		stars(cislo)
+	})
+	star.addEventListener('mouseenter', (event) => {
+		const cislo = index + 1;
+		stars(cislo)
+	})
+	
+})
+
+starsButton.forEach((star, index) => {
+	star.addEventListener('mouseleave', (event) => {
+		stars(ulozeneCislo)
+	})
+
+})
+
+
+/* ZADÁNÍ 8.1-5 + bonus */
+const poznamka = document.querySelector('#note-form')
+const obsahPoznamky = document.querySelector('#message-input')
+const zaskrnuto = document.querySelector('#terms-checkbox')
+
+poznamka.addEventListener('submit', (evt) => {
+	evt.preventDefault();
+
+    if (obsahPoznamky.value === '') {
+        obsahPoznamky.classList.add('is-invalid')
+        obsahPoznamky.focus()
+    } else if (zaskrnuto.checked === false) {
+        zaskrnuto.classList.add('is-invalid')
+        zaskrnuto.focus()
+    }   else {
+        poznamka.innerHTML = `<pclass="card-text">${obsahPoznamky.value}</pclass=>`
+    }
+        
+})    
+
+
+/* ZADÁNÍ 9.1-3 + bonus + extra bonus */
+/* 9. 1-2 */
+const prehravac = document.querySelector('#prehravac')
+const videoEl = prehravac.querySelector('video')
+let aktualniCas = document.querySelector('.current-time')
+
+
+prehravac.querySelector('.play').addEventListener('click', () => {
+	videoEl.play()
+})
+
+prehravac.querySelector('.pause').addEventListener('click', () => {
+	videoEl.pause()
+})
+
+videoEl.addEventListener('playing', () => {
+	prehravac.classList.add('playing')
+})
+
+videoEl.addEventListener('pause', () => {
+	prehravac.classList.remove('playing')
+})
+
+
+/* 9. 3 */
+videoEl.addEventListener('timeupdate', () => {
+	let seconds = Math.ceil(videoEl.currentTime)
+	let minutes = Math.floor(seconds / 60)
+	seconds = seconds % 60
+	
+	aktualniCas.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`
+})
+
+
+/* 9. bonus */
+document.addEventListener('keyup', (e) => {
+	if (
+		e.code === 'Space' &&
+		e.target.tagName !== 'TEXTAREA' &&
+		e.target.tagName !== 'INPUT' &&
+		e.target.tagName !== 'BUTTON'
+	  ) {
+		if (e.code === 'Space') {
+			if (videoEl.paused) {
+				videoEl.play()
+			} else (
+				videoEl.pause()
+			)
+		}
+	  }
+})
+
+
+/* 9. extra bonus */
+const ovladaciPanel = prehravac.querySelector('.player-controls')
+const panelZobrazit = () => {
+	clearTimeout(odpocet)
+	odpocet = setTimeout(panelSkryt, 3000)
+	ovladaciPanel.classList.remove('hidden')
+}
+
+const panelSkryt = () => {
+	ovladaciPanel.classList.add('hidden')
+}
+
+let odpocet
+document.addEventListener('mousemove', panelZobrazit)
+document.addEventListener('keydown', panelZobrazit)

@@ -103,4 +103,44 @@ const filmy = [
 			'Na zámek v podhůří Krkonoš přijíždí jeho nový majitel Štěpán se svojí snoubenkou, krásnou komtesou Blankou, a mladším bratrem Adamem. Cestou kočár nešťastně srazí kolemjdoucí dívku, Adam jí pomůže a ona se do něj zamiluje. Na zámku Adam objeví starou vlašskou knihu, která by měla obsahovat cestu k pokladům. Tajemné značky vlašské knihy však nedokáže vyluštit ani národopisec Jiráček, který v kraji sbírá pověsti a nevychází z údivu nad tím, že zdejší lidé stále věří v Krakonoše. Na zámku se objeví záhadný cizinec a nabídne Štěpánovi, že jej k pokladu za určitých podmínek dovede. Výprava do hor může začít. Naplní se Liduščina láska k Adamovi? Jakou záhadu skrývá starý obraz na zámku Hůrka a co strašlivého se v horách kdysi odehrálo? A kdo je vlastně Krakonoš a jaké je jeho největší tajemství? (csfd.cz, Česká televize)',
 		premiera: '2022-12-24',
 	},
+	{
+		id: 'hvezdna-brana',
+		nazev: 'Hvězdná brána',
+		plakat: {
+			url: 'https://upload.wikimedia.org/wikipedia/en/e/e0/Stargateposter.jpg',
+			sirka: 420,
+			vyska: 592,
+		},
+		ochutnavka: 'Kultovní sci-fi.',
+		popis:
+			'Vědecká expedice objevila poblíž pyramid zvláštní objekt pokrytý neznámými symboly. V přísném utajení ho začala zkoumat armáda, uběhla však dlouhá řada desetiletí, než se našel člověk, který by nápis rozluštil. Egyptolog Daniel Jackson zjistil, že znaky představují souřadnice pro cestu vesmírem na jakousi vzdálenou planetu. Padlo rozhodnutí vyslat tam průzkumnou jednotku pod velením plukovníka O´Neila. Symbol umožňující návrat na Zem ovšem na hvězdné bráně chybí, bude zřejmě teprve na místě určení. Expedice nutně potřebuje Danielovy znalosti, mladý vědec se tedy volky nevolky stává jejím členem. Nepraktický intelektuál se ocitá v prapodivném světě na úrovni staroegyptské civilizace, kde všichni lidé ve strachu otročí božskému vládci a nebezpečí číhá na každém kroku... (oficiální text distributora)',
+		premiera: '1994-10-28',
+	},
 ]
+
+
+/* ZADÁNÍ 4. + bonus */
+const listFilms = document.querySelector("#seznam-filmu")
+
+listFilms.innerHTML = ''
+
+filmy.forEach((film) => {
+listFilms.innerHTML += `
+<div class="col">
+   <div class="card">
+      <img 
+         src="${film.plakat.url}"
+         width="780"
+         height="520"
+         class="card-img-top"
+         alt="plakát"
+      />
+      <div class="card-body">
+         <h5 class="card-title">${film.nazev}</h5>
+         <p class="card-text">${film.ochutnavka}.</p>
+         <a href="film.html#${film.id}" class="btn btn-primary">Přehrát</a>
+      </div>
+   </div>
+</div>
+	`
+})
